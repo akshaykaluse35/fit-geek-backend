@@ -14,7 +14,7 @@ const home = async (req, res) => {
 const register = async (req, res) => {
   try {
     
-    console.log(req.body);
+    // console.log(req.body);
     const {username, email, phone, password} = req.body;
     // console.log(req.body);
     const userExists = await User.findOne({email})
@@ -42,7 +42,7 @@ const login = async(req, res) =>{
 
     const {email, password} = req.body;
     const userExists = await User.findOne({email})
-    console.log(userExists)
+    // console.log(userExists)
     if(!userExists){
       return res.status(400).json({message: "Invalid credentials"})
     }
@@ -55,11 +55,19 @@ const login = async(req, res) =>{
     }
 
   } catch (error) {
-    
+    return res.status(400).json({msg: "this is login backend error"});
   }
+}
 
+const users = async(req, res) =>{
+  try {
+    const userData = req.users;
+    // console.log(userData);
+    return res.status(200).json({userData});
+  } catch (error) {
+    return res.status(400).json({msg: `"There is some issue in fetching user data from Database, we will let you know soon, thank you" ${error}`});
+  }
 }
 
 
-
-module.exports = { home, register, login };
+module.exports = { home, register, login, users };
